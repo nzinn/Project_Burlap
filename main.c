@@ -3,12 +3,7 @@
 #define EXIT 0
 
 
-struct Player {
-	int x;
-	int y;
-};
 	
-void mvplayer(int input, struct Player player);
 
 int main(void)
 {
@@ -17,22 +12,25 @@ int main(void)
 	noecho();
 	keypad(stdscr, TRUE);
 
-	int screenx, screeny;
+	curs_set(0);
+	struct Player *player = wcreate_player(stdscr);
 
-	getmaxyx(stdscr, screenx, screeny);
-	struct Player player;
+	int player_x, player_y;
+	get_player_pos(player, &player_y, &player_x);
+	mvaddch(player_y, player_x, 'O');
+	mvprintw(0, 50, "y:%d x:%d", player_y, player_x);
+	refresh();
+	while (mvplayer(player, (int) getch())) {
 
-	player.x = screenx / 2;
-	player.y = screeny / 2;
+		mvaddch(player_y, player_x, ' ');
+		get_player_pos(player, &player_y, &player_x);
+		mvprintw(0, 50, "y:%d x:%d", player_y, player_x);
 
-	while (!EXIT) {
-		mvplayer((int) getch(), player); 
+		mvaddch(player_y, player_x, 'O');
+		
+		//gets the cursor back into the reight position
+		refresh();
 	}
+	endwin();
 }
 
-void mvplayer(int input, struct Player player)
-{
-	switch (input) {
-	
-	}
-}
