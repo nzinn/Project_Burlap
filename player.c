@@ -4,7 +4,7 @@ struct Player {
 	struct Position {
 		int x;
 		int y;
-	} pos;
+	} pos, prev_pos;
 
 	int health;
 };
@@ -22,28 +22,40 @@ struct Player *wcreate_player(WINDOW *window)
 	return player;
 }
 
-//moves the player and returns FALSE if char is not a valid keypress
-int mvplayer(struct Player *player, int keypress) 
+//moves the player by the specified amount, where positive y is down
+int mvplayer(WINDOW *win, struct Player *player, int ymv, int xmv) 
 {
-	switch (keypress) {
-	case KEY_LEFT:
-		player->pos.x--;
-		break;
-	case KEY_RIGHT:
-		player->pos.x++;
-		break;
-	//coords are flipped
-	case KEY_DOWN:
-		player->pos.y++;
-		break;
-	case KEY_UP:
-		player->pos.y--;
-		break;
-	default:
-		return 0;
+	player->prev_pos.x = player->pos.x;
+	player->prev_pos.y = player->pos.y;
+	
+	int xmax;
+	int ymax;
+
+	getmaxyx(win, ymax, xmax);
+
+	//adjust for scrollbar
+	xmax -= 3;
+
+	//don't let player leave the window
+	if (0 >= player->pos.x + xmv || player->pos.x + xmv >= xmax || 0 >= player->pos.y + ymv || player->pos.y + ymv >= ymax)
+	{
+		return 1;
 	}
 
-	return 1;
+	player->pos.x += xmv;
+	player->pos.y += ymv;
+
+	return 0;
+}
+
+void clrplayer(WINDOW *win, struct Player *player)
+{
+	mvwaddch(win, player->prev_pos.y, player->prev_pos.x, ' ');
+}
+
+void ptplayer(WINDOW *win, struct Player *player)
+{
+	mvwaddch(win, player->pos.y, player->pos.x, 'R');
 }
 
 void get_player_pos(struct Player *player, int *y, int *x)

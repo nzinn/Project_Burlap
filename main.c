@@ -2,7 +2,7 @@
 
 #define EXIT 0
 
-
+#define MV_SPEED 1
 	
 
 int main(void)
@@ -15,22 +15,29 @@ int main(void)
 	curs_set(0);
 	struct Player *player = wcreate_player(stdscr);
 
-	int player_x, player_y;
-	get_player_pos(player, &player_y, &player_x);
-	mvaddch(player_y, player_x, 'O');
-	mvprintw(0, 50, "y:%d x:%d", player_y, player_x);
-	refresh();
-	while (mvplayer(player, (int) getch())) {
+	ptplayer(stdscr, player);
 
-		mvaddch(player_y, player_x, ' ');
-		get_player_pos(player, &player_y, &player_x);
-		mvprintw(0, 50, "y:%d x:%d", player_y, player_x);
+	int input;
 
-		mvaddch(player_y, player_x, 'O');
-		
-		//gets the cursor back into the reight position
-		refresh();
+	while ((input = getch()) != 'q') {
+		switch (input) {
+
+		case KEY_LEFT:
+			mvplayer(stdscr, player, 0, -1 * MV_SPEED);
+			break;
+		case KEY_RIGHT:
+			mvplayer(stdscr, player, 0, MV_SPEED);
+			break;
+		case KEY_UP:
+			mvplayer(stdscr, player, -1 * MV_SPEED, 0);
+			break;
+		case KEY_DOWN:
+			mvplayer(stdscr, player, MV_SPEED, 0);
+		}
+		clrplayer(stdscr, player);
+		ptplayer(stdscr, player);
 	}
+
 	endwin();
 }
 
