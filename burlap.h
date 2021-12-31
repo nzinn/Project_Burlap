@@ -26,4 +26,8 @@ void clrplayer(WINDOW *win, struct Player *player);
 void ptplayer(WINDOW *win, struct Player *player);
 
 void get_player_pos(struct Player *player, int *y, int *x);
+
+void set_player_speed(struct Player *player, int speed);
+
+int get_player_speed(struct Player *player);
 #endif

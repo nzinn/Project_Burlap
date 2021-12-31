@@ -7,6 +7,7 @@ struct Player {
 	} pos, prev_pos;
 
 	int health;
+	int speed;
 };
 
 struct Player *wcreate_player(WINDOW *window)
@@ -19,6 +20,8 @@ struct Player *wcreate_player(WINDOW *window)
 	player->pos.x = winx / 2;
 	player->pos.y = winy / 2;
 	player->health = 100;
+	player->speed = 1;
+	
 	return player;
 }
 
@@ -37,7 +40,7 @@ int mvplayer(WINDOW *win, struct Player *player, int ymv, int xmv)
 	xmax -= 3;
 
 	//don't let player leave the window
-	if (0 >= player->pos.x + xmv || player->pos.x + xmv >= xmax || 0 >= player->pos.y + ymv || player->pos.y + ymv >= ymax)
+	if (0 >= player->pos.x + xmv || player->pos.x + xmv >= xmax || 0 >= player->pos.y + ymv || player->pos.y + ymv >= ymax - 1)
 	{
 		return 1;
 	}
@@ -64,3 +67,12 @@ void get_player_pos(struct Player *player, int *y, int *x)
 	*x = player->pos.x;
 }
 
+void set_player_speed(struct Player *player, int speed)
+{
+	player->speed = speed;
+}
+
+int get_player_speed(struct Player *player)
+{
+	return player->speed;
+}
