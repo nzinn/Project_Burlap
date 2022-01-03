@@ -51,12 +51,12 @@ int mvplayer(WINDOW *win, struct Player *player, int ymv, int xmv)
 	return 0;
 }
 
-void clrplayer(WINDOW *win, struct Player *player)
+void clear_player(WINDOW *win, struct Player *player)
 {
 	mvwaddch(win, player->prev_pos.y, player->prev_pos.x, ' ');
 }
 
-void ptplayer(WINDOW *win, struct Player *player)
+void put_player(WINDOW *win, struct Player *player)
 {
 	mvwaddch(win, player->pos.y, player->pos.x, 'R');
 }

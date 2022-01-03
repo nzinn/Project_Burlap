@@ -30,7 +30,7 @@ int main(void)
 	wrefresh(stdscr);
 
 	struct Player *player = wcreate_player(player_win);
-	ptplayer(player_win, player);
+	put_player(player_win, player);
 
 	int input;
 
@@ -51,8 +51,8 @@ int main(void)
 			mvplayer(player_win, player, get_player_speed(player), 0);
 		}
 
-		clrplayer(player_win, player);
-		ptplayer(player_win, player);
+		clear_player(player_win, player);
+		put_player(player_win, player);
 
 		wrefresh(player_win);
 

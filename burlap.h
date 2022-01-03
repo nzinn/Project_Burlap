@@ -18,12 +18,12 @@ int mvplayer(WINDOW *win, struct Player *player, int ymx, int xmx);
 /*
  * Clears player character from the screen
  */
-void clrplayer(WINDOW *win, struct Player *player);
+void clear_player(WINDOW *win, struct Player *player);
 
 /* 
  * Prints the player character to the window
  */
-void ptplayer(WINDOW *win, struct Player *player);
+void put_player(WINDOW *win, struct Player *player);
 
 void get_player_pos(struct Player *player, int *y, int *x);
 
